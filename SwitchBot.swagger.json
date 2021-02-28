@@ -1,0 +1,557 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "SwitchBot",
+    "description": "SwitchBotを制御するコネクタです。\nこちらのGitHubページをベースに作成しました。\nhttps://github.com/OpenWonderLabs/SwitchBotAPI\n\n制御のコマンドやパラメータについては、こちらのページをご確認ください\nhttps://github.com/OpenWonderLabs/SwitchBotAPI#send-device-control-commands",
+    "version": "1.0"
+  },
+  "host": "api.switch-bot.com",
+  "basePath": "/v1.0/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/devices": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "statusCode"
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "deviceList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "deviceId": {
+                            "type": "string",
+                            "description": "Switch Bot のデバイスIDです",
+                            "title": "デバイスID"
+                          },
+                          "deviceName": {
+                            "type": "string",
+                            "description": "SwitchBot のデバイス名です",
+                            "title": "デバイス名"
+                          },
+                          "deviceType": {
+                            "type": "string",
+                            "description": "デバイスの種別です",
+                            "title": "デバイス種別"
+                          },
+                          "enableCloudService": {
+                            "type": "boolean",
+                            "description": "デバイスがオンラインになっているか",
+                            "title": "オンライン状態",
+                            "enum": [
+                              "",
+                              "true",
+                              "false"
+                            ]
+                          },
+                          "hubDeviceId": {
+                            "type": "string",
+                            "description": "SwitchBot Hub の IDです",
+                            "title": "Hub ID"
+                          }
+                        }
+                      },
+                      "description": "deviceList"
+                    },
+                    "infraredRemoteList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "deviceId": {
+                            "type": "string",
+                            "description": "SwitchBot Hub で操作するデバイスのIDです",
+                            "title": "Hub デバイスID"
+                          },
+                          "deviceName": {
+                            "type": "string",
+                            "description": "SwitchBot Hub で操作するデバイスの名称です",
+                            "title": "Hub デバイス名"
+                          },
+                          "remoteType": {
+                            "type": "string",
+                            "description": "SwitchBot Hub で指定されているデバイスタイプです",
+                            "title": "操作タイプ"
+                          },
+                          "hubDeviceId": {
+                            "type": "string",
+                            "description": "デバイスを操作する SwitchBot Hub の IDです",
+                            "title": "所属Hub ID"
+                          }
+                        }
+                      },
+                      "description": "infraredRemoteList"
+                    }
+                  },
+                  "description": "body"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "message"
+                }
+              }
+            }
+          }
+        },
+        "summary": "デバイスの一覧を取得",
+        "description": "SwitchBotに登録されているデバイスの一覧を取得します",
+        "operationId": "Get_Device_List",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "application/json",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "name": "charset",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "utf8",
+            "x-ms-summary": "",
+            "x-ms-visibility": "internal"
+          }
+        ]
+      }
+    },
+    "/devices/{deviceid}/status": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "ステータスコードです",
+                  "title": "ステータスコード"
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "deviceId": {
+                      "type": "string",
+                      "description": "SwitchBotのデバイスIDです",
+                      "title": "デバイスID"
+                    },
+                    "deviceType": {
+                      "type": "string",
+                      "description": "SwitchBotのデバイスタイプです",
+                      "title": "デバイスタイプ"
+                    },
+                    "hubDeviceId": {
+                      "type": "string",
+                      "description": "デバイスが所属する SwitchBot Hub の ID です",
+                      "title": "HubデバイスID"
+                    },
+                    "power": {
+                      "type": "string",
+                      "description": "デバイスの電源状態です",
+                      "title": "電源状態"
+                    },
+                    "humidity": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "温湿度メーターもしくは加湿器の湿度です",
+                      "title": "湿度"
+                    },
+                    "temperature": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "現在の室温です",
+                      "title": "室温"
+                    },
+                    "nebulizationEfficiency": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "加湿器の噴霧効率です",
+                      "title": "加湿器 噴霧効率"
+                    },
+                    "auto": {
+                      "type": "boolean",
+                      "description": "auto",
+                      "title": "加湿器自動モード状態",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "childLock": {
+                      "type": "boolean",
+                      "description": "childLock",
+                      "title": "加湿器チャイルドロック状態",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "sound": {
+                      "type": "boolean",
+                      "description": "加湿器がミュート状態かどうか",
+                      "title": "加湿器ミュート状態",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "calibrate": {
+                      "type": "boolean",
+                      "description": "calibrate",
+                      "title": "カーテン調整済",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "group": {
+                      "type": "boolean",
+                      "description": "カーテンの所属するグループです",
+                      "title": "カーテングループ",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "moving": {
+                      "type": "boolean",
+                      "description": "カーテンが現在移動中かどうかを判定します",
+                      "title": "カーテン移動状態",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "slidePosition": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "カーテンがどれだけ開いているかを、キャリブレーションした開位置と閉位置の間の距離をパーセント表示しています",
+                      "title": "カーテン開放状態"
+                    },
+                    "mode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "スマート扇風機で設定されているモードです",
+                      "title": "スマート扇風機モード"
+                    },
+                    "speed": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "スマート扇風機の現在の風量です",
+                      "title": "スマート扇風機風量"
+                    },
+                    "shaking": {
+                      "type": "boolean",
+                      "description": "スマート扇風機がスイング状態であるかどうか判定します",
+                      "title": "スマート扇風機スイング状態",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "shakeCenter": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "スマート扇風機のスイングの方向です",
+                      "title": "スマート扇風機スイング方向"
+                    },
+                    "shakeRange": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "スマート扇風機のスイング範囲です",
+                      "title": "スマート扇風機スイング範囲"
+                    }
+                  },
+                  "description": "body"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "取得した結果についてのメッセージです",
+                  "title": "取得結果メッセージ"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceid",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ステータスを取得したいデバイスのIDを指定します",
+            "x-ms-summary": "ステータスを取得したいデバイスのIDを指定します"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "application/json",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "name": "charset",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "utf8",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "summary": "デバイスのステータスを取得します",
+        "description": "SwitchBot のデバイス状態を取得します",
+        "operationId": "Get_Device_Status"
+      }
+    },
+    "/devices/{deviceId}/commands": {
+      "post": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "statusCode"
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {},
+                  "description": "body"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "message"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Switch Bot を制御する",
+        "description": "Switch Bot に制御コマンドを送信します",
+        "operationId": "Send_SwitchBot_Command",
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "application/json",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "name": "charset",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "utf8",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "string",
+                  "description": "SwitchBotを操作するコマンドです 詳細はこちらのリンクを（https://github.com/OpenWonderLabs/SwitchBotAPI#send-device-control-commands）",
+                  "title": "コマンド"
+                },
+                "parameter": {
+                  "type": "string",
+                  "description": "コマンドに追加するパラメータを指定します。（https://github.com/OpenWonderLabs/SwitchBotAPI#send-device-control-commands）",
+                  "title": "パラメータ",
+                  "default": "default"
+                },
+                "commandType": {
+                  "type": "string",
+                  "description": "commandType",
+                  "title": "commandType",
+                  "x-ms-visibility": "internal",
+                  "default": "command"
+                }
+              },
+              "required": [
+                "command",
+                "commandType"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "/scenes": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "実行結果のステータスコードです",
+                  "title": "ステータスコード"
+                },
+                "body": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "sceneId": {
+                        "type": "string",
+                        "description": "SwitchBotで定義されたシーンのIDです",
+                        "title": "シーンID"
+                      },
+                      "sceneName": {
+                        "type": "string",
+                        "description": "SwitchBotで定義されたシーンの名称です",
+                        "title": "シーン名"
+                      }
+                    }
+                  },
+                  "description": "body"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "",
+                  "title": "メッセージ"
+                }
+              }
+            }
+          }
+        },
+        "summary": "シーンの一覧取得",
+        "description": "SwitchBotで指定されているシーンを取得します",
+        "operationId": "Get_Scenes_List",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "application/json",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "name": "charset",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "utf8",
+            "x-ms-visibility": "internal"
+          }
+        ]
+      }
+    },
+    "/scenes/{sceneId}/execute": {
+      "post": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "statusCode"
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {},
+                  "description": "body"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "message"
+                }
+              }
+            }
+          }
+        },
+        "summary": "シーンを実行",
+        "description": "指定したシーンを実行します",
+        "operationId": "Exec_Scene",
+        "parameters": [
+          {
+            "name": "sceneId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "application/json",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "name": "charset",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "utf8",
+            "x-ms-visibility": "internal"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {
+    "API キー": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "security": [
+    {
+      "API キー": []
+    }
+  ],
+  "tags": []
+}

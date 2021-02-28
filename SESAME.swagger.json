@@ -1,0 +1,182 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "SESAME",
+    "description": "SESAME",
+    "version": "1.0"
+  },
+  "host": "api.candyhouse.co",
+  "basePath": "/public",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/sesames": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "device_id": {
+                    "type": "string",
+                    "description": "device_id"
+                  },
+                  "serial": {
+                    "type": "string",
+                    "description": "serial"
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "description": "nickname"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get Sesame list",
+        "operationId": "GetSesameList",
+        "description": "Get Sesame list",
+        "parameters": []
+      }
+    },
+    "/sesame/{SESAMEid}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "locked": {
+                  "type": "boolean",
+                  "description": "locked"
+                },
+                "battery": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "battery"
+                },
+                "responsive": {
+                  "type": "boolean",
+                  "description": "responsive"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get Sesame status",
+        "description": "Get Sesame status",
+        "operationId": "GetSesameStatus",
+        "parameters": [
+          {
+            "name": "SESAMEid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task_id": {
+                  "type": "string",
+                  "description": "task_id"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Control Sesame",
+        "description": "Control Sesame Command is \"lock\" or \"unlock\" or \"sync\"",
+        "operationId": "ControlSesame",
+        "parameters": [
+          {
+            "name": "SESAMEid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "string",
+                  "description": "lock or unlock or sync",
+                  "title": "コマンド"
+                }
+              },
+              "required": [
+                "command"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "/action-result": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "status"
+                },
+                "successful": {
+                  "type": "boolean",
+                  "description": "successful"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Query Execution Result",
+        "description": "Query Execution Result",
+        "operationId": "QueryExecutionResult",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {
+    "API キー": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "security": [
+    {
+      "API キー": []
+    }
+  ],
+  "tags": []
+}
